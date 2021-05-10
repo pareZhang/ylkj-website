@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springblade.modules.user.mapper.AuthClientMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="clientResultMap" type="org.springblade.modules.user.entity.AuthClient">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="name" property="name"/>
+        <result column="provider" property="provider"/>
+        <result column="client_id" property="clientId"/>
+        <result column="client_secret" property="clientSecret"/>
+        <result column="scope" property="scope"/>
+        <result column="grant_type" property="grantType"/>
+        <result column="redirect_uri" property="redirectUri"/>
+        <result column="token_validity" property="tokenValidity"/>
+        <result column="remark" property="remark"/>
+        <result column="introduction" property="introduction"/>
+    </resultMap>
+    <sql id="findByWhere">
+        <where>
+            <if test="auth.clientId!=null and auth.clientId!=''">
+                <bind name="clientId" value="'%' + _parameter.auth.clientId + '%'"/>
+                <![CDATA[ c.client_id like #{clientId}  ]]>
+            </if>
+            <if test="auth.clientSecret!=null and auth.clientSecret!=''">
+                <bind name="clientSecret" value="'%' + _parameter.auth.clientSecret + '%'"/>
+                and <![CDATA[ c.client_secret like #{clientSecret}  ]]>
+            </if>
+        </where>
+    </sql>
+
+    <select id="findPage" resultType="org.springblade.modules.user.entity.AuthClient">
+        select * from tb_client c
+        <include refid="findByWhere"/>
+        order by c.create_time desc
+    </select>
+
+</mapper>
