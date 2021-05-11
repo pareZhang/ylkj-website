@@ -1,5 +1,6 @@
 package org.springblade.modules.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.springblade.modules.user.entity.Dept;
 import org.springblade.modules.user.vo.DeptVO;
 import org.springblade.core.mp.base.BaseService;
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author zjm
  * @since 2021-05-10
  */
-public interface IDeptService extends BaseService<Dept> {
+public interface IDeptService extends IService<Dept> {
 
 	/**
 	 * 获取子部门ID

@@ -1,5 +1,6 @@
 package org.springblade.modules.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.springblade.core.mp.support.Query;
 import org.springblade.modules.user.entity.Dict;
 import org.springblade.modules.user.vo.DictVO;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @author zjm
  * @since 2021-05-10
  */
-public interface IDictService extends BaseService<Dict> {
+public interface IDictService extends IService<Dict> {
 	/**
 	 * 获取字典表对应中文
 	 *

@@ -1,6 +1,7 @@
 package org.springblade.modules.user.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
 import org.springblade.core.log.exception.ServiceException;
 import org.springblade.core.tool.constant.BladeConstant;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @since 2021-05-10
  */
 @Service
-public class DeptServiceImpl extends BaseServiceImpl<DeptMapper, Dept> implements IDeptService {
+public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements IDeptService {
 
 	@Override
 	public List<Dept> getDeptChild(Long deptId) {

@@ -17,6 +17,7 @@ package org.springblade.modules.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springblade.common.constant.CommonConstant;
 import org.springblade.core.cache.utils.CacheUtil;
 import org.springblade.core.log.exception.ServiceException;
@@ -47,7 +48,7 @@ import static org.springblade.core.cache.constant.CacheConstant.DICT_CACHE;
  * @since 2021-05-10
  */
 @Service
-public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implements IDictService {
+public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements IDictService {
     @Override
     public String getValue(String code, String dictKey) {
         return Func.toStr(baseMapper.getValue(code, dictKey), StringPool.EMPTY);

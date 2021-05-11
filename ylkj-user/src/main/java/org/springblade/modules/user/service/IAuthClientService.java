@@ -1,5 +1,6 @@
 package org.springblade.modules.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.springblade.modules.user.entity.AuthClient;
 import org.springblade.core.mp.base.BaseService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -10,7 +11,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  * @author zjm
  * @since 2021-05-10
  */
-public interface IAuthClientService extends BaseService<AuthClient> {
+public interface IAuthClientService extends IService<AuthClient> {
 
 
 

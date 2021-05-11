@@ -2,6 +2,7 @@ package org.springblade.modules.user.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -11,6 +12,8 @@ import lombok.EqualsAndHashCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 /**
  * 部门表实体类
  *
@@ -19,9 +22,8 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Data
 @TableName("tb_dept")
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "Dept对象", description = "部门表")
-public class Dept extends BaseEntity {
+public class Dept implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -83,5 +85,17 @@ public class Dept extends BaseEntity {
     @ApiModelProperty(value = "地址")
     private String address;
 
+    /**
+     * 状态[1:正常]
+     */
+    @ApiModelProperty(value = "业务状态")
+    private Integer status;
+
+    /**
+     * 状态[0:未删除,1:删除]
+     */
+    @TableLogic
+    @ApiModelProperty(value = "是否已删除")
+    private Integer isDeleted;
 
 }
