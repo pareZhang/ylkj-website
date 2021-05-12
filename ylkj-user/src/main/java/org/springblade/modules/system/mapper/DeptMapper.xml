@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springblade.modules.system.mapper.DeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="deptResultMap" type="org.springblade.modules.system.entity.Dept">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="full_name" property="fullName"/>
+        <result column="sort" property="sort"/>
+        <result column="credit_code" property="creditCode"/>
+        <result column="ancestors" property="ancestors"/>
+        <result column="remark" property="remark"/>
+        <result column="contacts" property="contacts"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="address" property="address"/>
+    </resultMap>
+<!--    懒加载查询结果映射-->
+    <resultMap id="deptVOResultMap" type="org.springblade.modules.system.vo.DeptVO">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="full_name" property="fullName"/>
+        <result column="sort" property="sort"/>
+        <result column="credit_code" property="creditCode"/>
+        <result column="ancestors" property="ancestors"/>
+        <result column="remark" property="remark"/>
+        <result column="contacts" property="contacts"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="address" property="address"/>
+    </resultMap>
+<!--树形结构结果映射-->
+    <resultMap id="treeNodeResultMap" type="org.springblade.core.tool.node.TreeNode">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="title" property="title"/>
+        <result column="value" property="value"/>
+        <result column="key" property="key"/>
+        <result column="has_children" property="hasChildren"/>
+    </resultMap>
+<!--    懒加载列表-->
+    <select id="lazyList" resultMap="deptResultMap">
+        SELECT
+        dept.* ,
+        (
+        SELECT
+        CASE WHEN count(1) > 0 THEN 1 ELSE 0 END
+        FROM
+        tb_dept
+        WHERE
+        parent_id = dept.id
+        ) AS "has_children"
+        FROM
+        tb_dept dept
+        <where>
+            <if test="param1!=null">
+                dept.parent_id = #{param1}
+            </if>
+            <if test="param2.deptName!=null and param2.deptName!=''">
+                and dept.dept_name like concat(concat('%', #{param2.deptName}),'%')
+            </if>
+            <if test="param2.fullName!=null and param2.fullName!=''">
+                and dept.full_name like concat(concat('%', #{param2.fullName}),'%')
+            </if>
+        </where>
+
+        ORDER BY dept.sort
+    </select>
+<!--    树形结构-->
+    <select id="tree" resultMap="treeNodeResultMap">
+        select id, parent_id, dept_name as title, id as "value", id as "key" from tb_dept  ORDER BY sort
+    </select>
+<!--    懒加载树形结构-->
+    <select id="lazyTree" resultMap="treeNodeResultMap">
+        SELECT
+            dept.id,
+            dept.parent_id,
+            dept.dept_name AS title,
+            dept.id AS "value",
+            dept.id AS "key",
+            (
+                SELECT
+                    CASE WHEN count(1) > 0 THEN 1 ELSE 0 END
+                FROM
+                    tb_dept
+                WHERE
+                    parent_id = dept.id
+            ) AS "has_children"
+        FROM
+            tb_dept dept
+        WHERE
+            dept.parent_id = #{parentId}
+        ORDER BY dept.sort
+    </select>
+
+</mapper>
