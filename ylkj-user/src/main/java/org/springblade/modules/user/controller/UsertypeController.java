@@ -88,9 +88,7 @@ public class UsertypeController extends BladeController {
     @ApiOperationSupport(order = 5)
 	@ApiOperation(value = "逻辑删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		List<String> arrid= Arrays.asList(ids.split(","));
-		boolean success=usertypeService.removeByIds(arrid);
-		return R.data(success);
+		return R.status(usertypeService.removeByIds(Func.toLongList(ids)));
 	}
 
 	
