@@ -21,8 +21,8 @@ import org.springblade.core.tool.utils.Func;
 import org.springblade.core.tool.utils.SpringUtil;
 import org.springblade.core.tool.utils.StringPool;
 import org.springblade.core.tool.utils.StringUtil;
-import org.springblade.modules.user.entity.User;
-import org.springblade.modules.user.service.IUserService;
+import org.springblade.modules.system.entity.User;
+import org.springblade.modules.system.service.IUserService;
 
 import static org.springblade.core.cache.constant.CacheConstant.USER_CACHE;
 import static org.springblade.core.launch.constant.FlowConstant.TASK_USR_PREFIX;

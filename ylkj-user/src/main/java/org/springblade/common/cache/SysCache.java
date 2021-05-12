@@ -21,8 +21,8 @@ import org.springblade.common.constant.CommonConstant;
 import org.springblade.core.cache.utils.CacheUtil;
 import org.springblade.core.tool.utils.SpringUtil;
 import org.springblade.core.tool.utils.StringPool;
-import org.springblade.modules.user.entity.*;
-import org.springblade.modules.user.service.*;
+import org.springblade.modules.system.entity.*;
+import org.springblade.modules.system.service.*;
 
 import java.util.ArrayList;
 import java.util.List;

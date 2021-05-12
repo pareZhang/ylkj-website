@@ -25,7 +25,7 @@ import org.springblade.core.tool.utils.SpringUtil;
 import org.springblade.core.tool.utils.StringPool;
 import org.springblade.core.tool.utils.StringUtil;
 import org.springblade.core.tool.utils.WebUtil;
-import org.springblade.modules.user.entity.AuthClient;
+import org.springblade.modules.system.entity.AuthClient;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,7 +1,7 @@
 package org.springblade.common.feign;
 
 import feign.hystrix.FallbackFactory;
-import org.springblade.modules.user.dto.UserInfo;
+import org.springblade.modules.system.dto.UserInfo;
 import org.springblade.core.tool.api.R;
 
 public class ApiFallBackFactory implements FallbackFactory<ApiClient> {

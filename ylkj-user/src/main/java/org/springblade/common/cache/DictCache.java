@@ -19,8 +19,8 @@ package org.springblade.common.cache;
 import org.springblade.core.cache.utils.CacheUtil;
 import org.springblade.core.tool.utils.SpringUtil;
 import org.springblade.core.tool.utils.StringPool;
-import org.springblade.modules.user.entity.Dict;
-import org.springblade.modules.user.service.IDictService;
+import org.springblade.modules.system.entity.Dict;
+import org.springblade.modules.system.service.IDictService;
 
 import java.util.List;
 import java.util.Optional;

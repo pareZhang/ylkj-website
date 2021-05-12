@@ -18,8 +18,8 @@ package org.springblade.core.secure;
 
 
 import lombok.Data;
-import org.springblade.modules.user.dto.RoleDTO;
-import org.springblade.modules.user.dto.UserInfo;
+import org.springblade.modules.system.dto.RoleDTO;
+import org.springblade.modules.system.dto.UserInfo;
 import org.springblade.core.log.exception.ServiceException;
 import org.springblade.core.tool.utils.Func;
 
