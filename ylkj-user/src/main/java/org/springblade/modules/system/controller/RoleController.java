@@ -13,6 +13,7 @@ import org.springblade.core.tool.utils.Func;
 import org.springblade.modules.system.service.IRoleClientService;
 import org.springblade.modules.system.vo.GrantClientVO;
 import org.springblade.modules.system.vo.GrantMenuVO;
+import org.springblade.modules.system.vo.GrantVO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -128,6 +129,16 @@ public class RoleController extends BladeController {
 	@ApiOperation(value = "权限设置", notes = "传入roleId集合以及menuId集合")
 	public R grantMenu(@RequestBody GrantMenuVO grantVO) {
 		boolean temp = roleService.grant(grantVO.getRoleIds(), grantVO.getMenuIds());
+		return R.status(temp);
+	}
+	/**
+	 * 设置角色权限
+	 */
+	@PostMapping("/grant")
+	@ApiOperation(value = "权限设置", notes = "传入roleId集合以及menuId集合")
+	public R grant(@RequestBody GrantVO grantVO) {
+		CacheUtil.clear(SYS_CACHE);
+		boolean temp = roleService.grant(grantVO.getRoleId(), grantVO.getMenuIds(), grantVO.getDataScopeIds(), grantVO.getApiScopeIds());
 		return R.status(temp);
 	}
 	

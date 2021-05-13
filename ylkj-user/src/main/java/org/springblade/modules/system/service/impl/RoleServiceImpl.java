@@ -6,17 +6,20 @@ import lombok.AllArgsConstructor;
 import org.springblade.core.tool.utils.Func;
 import org.springblade.modules.system.entity.Role;
 import org.springblade.modules.system.entity.RoleMenu;
+import org.springblade.modules.system.entity.RoleScope;
 import org.springblade.modules.system.service.IRoleMenuService;
 import org.springblade.modules.system.mapper.RoleMapper;
+import org.springblade.modules.system.service.IRoleScopeService;
 import org.springblade.modules.system.service.IRoleService;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 /**
  * 角色表 服务实现类
  *
@@ -27,7 +30,8 @@ import java.util.stream.Collectors;
 @Validated
 @AllArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
-    IRoleMenuService roleMenuService;
+    private IRoleMenuService roleMenuService;
+    private IRoleScopeService roleScopeService;
 
     @Override
     public IPage<Role> selectRolePage(IPage<Role> page, Role role) {
@@ -85,5 +89,52 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         }));
         // 新增配置
         return roleMenuService.saveBatch(roleMenus);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean grant(@NotEmpty String roleId, List<Long> menuIds, List<Long> dataScopeIds, List<Long> apiScopeIds) {
+        // 删除角色配置的菜单集合
+        roleMenuService.remove(Wrappers.<RoleMenu>update().lambda().eq(RoleMenu::getRoleId, roleId));
+        // 组装配置
+        List<RoleMenu> roleMenus = new ArrayList<>();
+        menuIds.forEach(menuId -> {
+            RoleMenu roleMenu = new RoleMenu();
+            roleMenu.setRoleId(Func.toLong(roleId));
+            roleMenu.setMenuId(menuId);
+            roleMenus.add(roleMenu);
+        });
+        // 新增配置
+        roleMenuService.saveBatch(roleMenus);
+
+        // 删除角色配置的数据权限集合
+        roleScopeService.remove(Wrappers.<RoleScope>update().lambda().eq(RoleScope::getScopeCategory, 1).eq(RoleScope::getRoleId, roleId));
+        // 组装配置
+        List<RoleScope> roleDataScopes = new ArrayList<>();
+        dataScopeIds.forEach(scopeId -> {
+            RoleScope roleScope = new RoleScope();
+            roleScope.setScopeCategory(1);
+            roleScope.setRoleId(Func.toLong(roleId));
+            roleScope.setScopeId(scopeId);
+            roleDataScopes.add(roleScope);
+        });
+        // 新增配置
+        roleScopeService.saveBatch(roleDataScopes);
+
+        // 删除角色配置的接口权限集合
+        roleScopeService.remove(Wrappers.<RoleScope>update().lambda().eq(RoleScope::getScopeCategory, 2).in(RoleScope::getRoleId, roleId));
+        // 组装配置
+        List<RoleScope> roleApiScopes = new ArrayList<>();
+        apiScopeIds.forEach(scopeId -> {
+            RoleScope roleScope = new RoleScope();
+            roleScope.setScopeCategory(2);
+            roleScope.setScopeId(scopeId);
+            roleScope.setRoleId(Func.toLong(roleId));
+            roleApiScopes.add(roleScope);
+        });
+        // 新增配置
+        roleScopeService.saveBatch(roleApiScopes);
+
+        return true;
     }
 }

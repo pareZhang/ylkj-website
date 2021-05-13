@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.springblade.modules.system.entity.Role;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -63,4 +64,14 @@ public interface IRoleService extends IService<Role> {
 	 * @return
 	 */
 	boolean grant(List<Long> roleIds, List<Long> menuIds);
+	/**
+	 * 权限配置
+	 *
+	 * @param roleId      角色id集合
+	 * @param menuIds      菜单id集合
+	 * @param dataScopeIds 数据权限id集合
+	 * @param apiScopeIds  接口权限id集合
+	 * @return 是否成功
+	 */
+	boolean grant(@NotEmpty String roleId, List<Long> menuIds, List<Long> dataScopeIds, List<Long> apiScopeIds);
 }

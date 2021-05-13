@@ -28,6 +28,7 @@ import org.springblade.core.tool.utils.WebUtil;
 import org.springblade.modules.system.entity.AuthClient;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Auth工具类
@@ -165,6 +166,9 @@ public class AuthUtil {
 	public static String getUserRole() {
 		BladeUser user = getUser();
 		return (null == user) ? StringPool.EMPTY : user.getRoleAlias();
+	}
+	public static List<Long> getRoleIds(){
+		return getUser().getRoleIds();
 	}
 
 	public static String getUserAccount(HttpServletRequest request) {

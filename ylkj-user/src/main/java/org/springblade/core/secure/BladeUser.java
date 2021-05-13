@@ -24,6 +24,7 @@ import org.springblade.core.log.exception.ServiceException;
 import org.springblade.core.tool.utils.Func;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +46,6 @@ public class BladeUser implements Serializable {
 	public Long getDeptId(){
 		return userInfo.getDept().getId();
 	}
-
 	public String getRoleAlias(){
 		return Func.join(userInfo.getRoles().stream().map(RoleDTO::getRoleAlias).collect(Collectors.toList()));
 	}
@@ -53,6 +53,10 @@ public class BladeUser implements Serializable {
 	public String getName(){
 		return userInfo.getUser().getName();
 	}
+
+	public List<Long> getRoleIds(){
+		return  userInfo.getRoles().stream().map(x -> x.getId()).collect(Collectors.toList());}
+
 
 
 	public static BladeUser parse(Long uid){
