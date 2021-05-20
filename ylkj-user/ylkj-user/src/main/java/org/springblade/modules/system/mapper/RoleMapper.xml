@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springblade.modules.system.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="roleResultMap" type="org.springblade.modules.system.entity.Role">
+        <id column="id" property="id"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="role_name" property="roleName"/>
+        <result column="sort" property="sort"/>
+        <result column="role_alias" property="roleAlias"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        id
+        ,role_name,sort,role_alias,remark,is_deleted
+    </sql>
+    <!--自定义分页-->
+    <select id="selectRolePage" resultMap="roleResultMap">
+        select * from tb_role
+        <where>
+            <if test="role.roleName!=null and role.roleName != ''">
+                <bind name="roleName" value="'%' + _parameter.role.nickname + '%'"/>
+                role_name like #{roleName}
+            </if>
+            <if test="role.roleAlias!=null and role.roleAlias != ''">
+                <bind name="roleAlias" value="'%' + _parameter.role.roleAlias + '%'"/>
+                and role_alias like #{roleAlias}
+            </if>
+            and is_deleted=0
+        </where>
+        order by sort
+    </select>
+    <!--    id获取角色别名-->
+    <select id="getRoleAliases" resultType="java.lang.String">
+        SELECT
+        role_alias
+        FROM
+        tb_role
+        WHERE
+        id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_deleted=0
+        order by sort
+    </select>
+<!--    id获取角色名-->
+    <select id="getRoleNames" resultType="java.lang.String">
+        SELECT
+        role_name
+        FROM
+        tb_role
+        WHERE
+        id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_deleted=0
+        order by sort
+    </select>
+    <!--    根据id获取角色-->
+    <select id="getRoles" resultMap="roleResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM
+        tb_role
+        WHERE
+        id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_deleted=0
+        order by sort
+    </select>
+</mapper>
