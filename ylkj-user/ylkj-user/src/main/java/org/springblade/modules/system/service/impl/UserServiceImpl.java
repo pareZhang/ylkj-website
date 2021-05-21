@@ -45,6 +45,7 @@ import java.util.Objects;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     private IUserOauthService userOauthService;
+
     @Override
     public User userByAccount(String account) {
         return baseMapper.selectOne(Wrappers.<User>query().lambda().eq(User::getPhone,account).eq(User::getStatus, 0));
