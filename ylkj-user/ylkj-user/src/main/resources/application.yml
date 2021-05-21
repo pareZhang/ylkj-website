@@ -1,6 +1,6 @@
 #服务器配置
 server:
-    port: 8888
+    port: 8889
     undertow:
         io-threads: 16
         worker-threads: 400
